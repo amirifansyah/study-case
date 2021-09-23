@@ -30,6 +30,7 @@ class BukuRepository{
                 // }
                 // dd($data);
                 $BukuRepo = new Perpus();
+                $bukuRepo = new Perpus();
                 $BukuRepo->judul        = $data['judul'];
                 // $BukuRepo->gambar       = $file;
                 $BukuRepo->deskripsi    = $data['deskripsi'];
@@ -46,22 +47,30 @@ class BukuRepository{
             }
         }
 
+        # penamaan method camel 
         public function getdata($request){
-            $result = ['status' => false, "message" => ""];
-            try {
-                $BukuRepo = Perpus::where('judul', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('kategori', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('stok', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('deskripsi', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('pengarang', 'LIKE', '%'.$request->cari.'%')
-                    ->paginate(2);
-                $result['status'] = true;
-                $result['message'] = $BukuRepo;
-                return $result;
-            } catch (\Throwable $th) {
-                $result["message"] =  'Funtion Error'.$th->getMessage();
-                return $result;
-            }
+            # get atau find data tidak perlu pakai try catch
+            return Perpus::where('judul', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('kategori', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('stok', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('deskripsi', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('pengarang', 'LIKE', '%'.$request->cari.'%')
+            ->paginate(2);
+            // $result = ['status' => false, "message" => ""];
+            // try {
+            //     $BukuRepo = Perpus::where('judul', 'LIKE', '%'.$request->cari.'%')
+            //         ->orwhere('kategori', 'LIKE', '%'.$request->cari.'%')
+            //         ->orwhere('stok', 'LIKE', '%'.$request->cari.'%')
+            //         ->orwhere('deskripsi', 'LIKE', '%'.$request->cari.'%')
+            //         ->orwhere('pengarang', 'LIKE', '%'.$request->cari.'%')
+            //         ->paginate(2);
+            //     $result['status'] = true;
+            //     $result['message'] = $BukuRepo;
+            //     return $result;
+            // } catch (\Throwable $th) {
+            //     $result["message"] =  'Funtion Error'.$th->getMessage();
+            //     return $result;
+            // }
         }
 
         public function Pinjam($request = []){
@@ -147,10 +156,10 @@ class BukuRepository{
         }
         
 
-        public function buttonDelete(){
-        return Status::where('user_id', Auth::user()->id) 
-        ->where('status', '<>',"hapus")
-        ->with(['perpus', 'user'])  
-        ->get();
+        public function getByDeletedStatus(){
+            return Status::where('user_id', Auth::user()->id) 
+            ->where('status', '<>',"hapus")
+            ->with(['perpus', 'user'])  
+            ->get();
         }
 }

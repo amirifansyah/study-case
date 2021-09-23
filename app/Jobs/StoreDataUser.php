@@ -19,8 +19,8 @@ class StoreDataUser implements ShouldQueue
      * @return void
      */
 
-     protected $name;
-     protected $email;
+     protected $name, $email;
+    //  private $email;
     public function __construct($name, $email)
     {
         $this->name = $name;
@@ -34,9 +34,11 @@ class StoreDataUser implements ShouldQueue
      */
     public function handle()
     {
-        $LoginRepo = new LoginRepository();
-        $arr = ['name' => $this->name, 'email' => $this->email];
-        $LoginRepo->loginstore($arr);
-        return $LoginRepo;
+        // $LoginRepo = new LoginRepository();
+        // $arr = ['name' => $this->name, 'email' => $this->email];
+        // $LoginRepo->loginstore($arr);
+        // $LoginRepo->loginstore($arr);
+        // return $LoginRepo;
+        return (new LoginRepository())->loginstore(['name' => $this->name, 'email' => $this->email]);
     }
 }

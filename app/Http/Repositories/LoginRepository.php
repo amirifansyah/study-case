@@ -6,10 +6,14 @@ use App\Login;
 
 class LoginRepository{
 
+    # penamaan function pakai camelCase saja, contoh: loginStore
+
     public function loginstore($request = []){
+        # pesan dump/dd kayak gini jangan lupa dihapus
         // dd($request['name']);
         $result = ["status" => false, "message" => "" ];
         try {
+            # instansiasi class pakai camelCase saja,contoh: $loginRepository = new Login();
             $LoginRepo = new Login();
             $LoginRepo->name = $request["name"];
             $LoginRepo->email = $request["email"];

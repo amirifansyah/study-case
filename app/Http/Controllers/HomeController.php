@@ -30,6 +30,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        # untuk check auth dan redirect nya bisa dari middleware saja
         $authid = Auth::user()->role;
         if($authid == 'admin'){
             $perpus = $this->BookRepo->getdata($request);

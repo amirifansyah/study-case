@@ -23,12 +23,14 @@ class PinjamController extends Controller
     }
 
     public function pinjambuku(){
-        if(Auth::user()->role == 'admin'){
-            $status = $this->PinjamRepo->statusPinjam();
-            return view('User.create', compact('status'));
-        }else{
-            $status = $this->PinjamRepo->buttonDelete();
+        $status = Auth::user()->role == 'admin' ? $this->PinjamRepo->statusPinjam() : $this->PinjamRepo->getByDeletedStatus();
         return view('User.create', compact('status'));
-    }
+        // if(Auth::user()->role == 'admin'){
+        //     $status = $this->PinjamRepo->statusPinjam();
+        //     return view('User.create', compact('status'));
+        // }else{
+        //     $status = $this->PinjamRepo->getByDeletedStatus();
+        //     return view('User.create', $]);
+        // }
     }
 }
