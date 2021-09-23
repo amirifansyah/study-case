@@ -18,11 +18,11 @@ class PerpusController extends Controller
     }
 
     public function create(){
-        return view('Perpus.create');
+        return view('perpus.create');
     }
 
     public function store(NewBookRequest $request){
-            $bukuRepo = $this->BookRepo->storebuku($request);
+            $bukuRepo = $this->BookRepo->storeBuku($request);
         Session::flash('message', $bukuRepo['message']);
         if(!$bukuRepo['status']){
             Session::flash('alert-class', 'alert-danger');
@@ -39,7 +39,7 @@ class PerpusController extends Controller
     }
 
     public function edit(Perpus $id){
-        return view('Perpus.edit', compact('id'));
+        return view('perpus.edit', compact('id'));
     }
 
     public function update(NewBookRequest $request, Perpus $id){

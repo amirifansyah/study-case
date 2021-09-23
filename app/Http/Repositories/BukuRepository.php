@@ -14,30 +14,17 @@ class BukuRepository{
             $this->statusRepo = new StatusRepository;
         }
 
-        public function storebuku($request){
+        public function storeBuku($request){
             $result = ["status" => false, "message" => ""];
             $data = $request->all();
             try { 
-                // if($request->hasFile('gambar')){
-                //     // dd('test');
-
-                //     $image      = $request->file('gambar');
-                //     // $bukuname   = $data['gambar'];
-                //     // $nama       = strtok($bukuname, '');
-                //     $file    = time() . '.' . $image->getClientOriginalExtension();
-                //     $path = $request->file('gambar')->storeAs('public/gambar-buku/', $file);
-
-                // }
-                // dd($data);
                 $BukuRepo = new Perpus();
                 $BukuRepo->judul        = $data['judul'];
-                // $BukuRepo->gambar       = $file;
                 $BukuRepo->deskripsi    = $data['deskripsi'];
                 $BukuRepo->stok         = $data['stok'];
                 $BukuRepo->kategori     = $data['kategori'];
                 $BukuRepo->pengarang    = $data['pengarang'];
                 $BukuRepo->save();
-                // $BukuRepo = Perpus::create([$request->all()]);
                 $result["status"] = true;
                 $result["message"] = "data Berhasil disimpan";
             } catch (\Throwable $th) {
@@ -46,26 +33,16 @@ class BukuRepository{
             }
         }
 
-        public function getdata($request){
-            $result = ['status' => false, "message" => ""];
-            try {
-                $BukuRepo = Perpus::where('judul', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('kategori', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('stok', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('deskripsi', 'LIKE', '%'.$request->cari.'%')
-                    ->orwhere('pengarang', 'LIKE', '%'.$request->cari.'%')
-                    ->paginate(3);
-                $result['status'] = true;
-                $result['message'] = $BukuRepo;
-                return $result;
-            } catch (\Throwable $th) {
-                $result["message"] =  'Funtion Error'.$th->getMessage();
-                return $result;
-            }
+        public function getData($request){
+            return Perpus::where('judul', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('kategori', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('stok', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('deskripsi', 'LIKE', '%'.$request->cari.'%')
+            ->orwhere('pengarang', 'LIKE', '%'.$request->cari.'%')
+            ->paginate(2);
         }
 
-        public function Pinjam($request = []){
-            // dd($request);
+        public function pinjamBuku($request = []){
             $result = ["status" => false, "message" => ""];
             try {
                 Status::create($request);
@@ -78,11 +55,11 @@ class BukuRepository{
             }
         }
 
-        public function stokKurang($request, $id){
+        public function statusStokKurang($request, $id){
             $result = ["status" => false, "message" => ""];
                 try {
                     $buku_id = $id->perpus_id;
-                    $this->statusRepo->updatestatus($request, $id);
+                    $this->statusRepo->updateStatus($request, $id);
                     $stok = new Perpus;
                     $stok = $stok->findStokById($buku_id);
                     $stok->stok = $stok->stok - 1;
@@ -96,11 +73,11 @@ class BukuRepository{
                 }
             }
 
-        public function stokTambah($request, $id){
+        public function statusStokTambah($request, $id){
             $result = ["status" => false, "message" => ""];
                 try {
                     $buku_id = $id->perpus_id;
-                    $this->statusRepo->updatestatus($request, $id);
+                    $this->statusRepo->updateStatus($request, $id);
                     $stok = new Perpus;
                     $stok = $stok->findStokById($buku_id);
                     $stok->stok = $stok->stok + 1;
@@ -146,8 +123,7 @@ class BukuRepository{
             return Status::with(['perpus', 'user'])->where('status', 'Peminjaman')->get();
         }
         
-
-        public function getByDelete(){
+        public function getByDeletedStatus(){
         return Status::where('user_id', Auth::user()->id) 
         ->where('status', '<>',"hapus")
         ->with(['perpus', 'user'])  

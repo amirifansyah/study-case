@@ -18,20 +18,12 @@ class PinjamController extends Controller
     }
 
     public function history(PinjamRequest $request){
-        $this->PinjamRepo->pinjam($request->all());
+        $this->PinjamRepo->pinjamBuku($request->all());
         return redirect()->route('user.pinjambuku')->with('pesan', 'berhasil disimpan');
     }
 
-    public function pinjambuku(){
-        if(Auth::user()->role == 'admin'){
-            $status = $this->PinjamRepo->statusPinjam();
-            return view('User.create', compact('status'));
-        }else{
-        //     $status = $this->PinjamRepo->buttonDelete();
-        // return view('User.create', compact('status'));
-        return view('User.create', [
-            'status' => $this->PinjamRepo->getByDelete()
-        ]);
-    }
+    public function pinjamBuku(){
+        $status = Auth::user()->role == 'admin' ? $this->PinjamRepo->statusPinjam() : $this->PinjamRepo->getByDeletedStatus();
+        return view('user.create', compact('status'));
     }
 }

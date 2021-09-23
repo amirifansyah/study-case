@@ -43,11 +43,11 @@ Route::prefix('/user')->group(function (){
 });
 
 
-Route::get('/history', 'PinjamController@pinjambuku')->name('user.pinjambuku');
-Route::get('/approve', 'StatusController@approve')->name('status.approve');
-Route::patch('/approve/{id}', 'StatusController@updatestatus')->name('status.update');
-Route::get('dikembalikan', 'StatusController@return')->name('status.dikemabalikan');
-Route::get('/history-buku-kembali', 'StatusController@historybuku')->name('status.bukukembali');
+Route::get('/history', 'PinjamController@pinjamBuku')->name('user.pinjambuku');
+Route::get('/approve', 'StatusController@approveBuku')->name('status.approve');
+Route::patch('/approve/{id}', 'StatusController@updateStatus')->name('status.update');
+Route::get('dikembalikan', 'StatusController@returnBuku')->name('status.dikemabalikan');
+Route::get('/history-buku-kembali', 'StatusController@historyBuku')->name('status.bukukembali');
 // Route::get('/nyoba', 'HomeController@bismillah')->name('nyoba');
 
 Route::prefix('pustaka')->group(function (){

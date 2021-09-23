@@ -18,35 +18,31 @@ class StatusController extends Controller
         $this->statusRepo = new StatusRepository;
         $this->editstok = new BukuRepository;
     }
-    
-    // public function status(){
-    //     $this->statusRepo = new StatusRepository;
-    // }
 
-    public function approve(){
-        $status = $this->statusRepo->approvestatus();
+    public function approveBuku(){
+        $status = $this->statusRepo->approveStatus();
         return view('status.approve', compact('status'));
     }
 
-    public function return(){
-        $status = $this->statusRepo->returnstatus();
+    public function returnBuku(){
+        $status = $this->statusRepo->returnStatus();
         return view('status.dikembalikan', compact('status'));
     }
 
-    public function historybuku(){
-        $status = $this->statusRepo->historystatus();
+    public function historyBuku(){
+        $status = $this->statusRepo->historyStatus();
         return view('status.dikembalikan', compact('status'));
     }
 
-    public function updatestatus(PinjamRequest $request,Status $id){
+    public function updateStatus(PinjamRequest $request,Status $id){
         if($request['status'] == 'Approve'){
-            $this->editstok->stokKurang($request, $id);
+            $this->editstok->statusStokKurang($request, $id);
             return redirect()->route('user.pinjambuku');
         }else if($request['status'] == 'dikembalikan'){
-            $this->editstok->stokTambah($request,$id);
+            $this->editstok->statusStokTambah($request,$id);
             return redirect()->route('status.dikemabalikan');
         }else{
-            $this->statusRepo->updatestatus($request, $id);
+            $this->statusRepo->updateStatus($request, $id);
             return redirect()->route('user.pinjambuku');
         }
     }

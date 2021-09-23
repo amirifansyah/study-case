@@ -6,7 +6,7 @@ use App\Perpus;
 use App\Status;
 
 class StatusRepository{
-    public function updatestatus($request = [], $id){
+    public function updateStatus($request = [], $id){
        
         $result = ["status" => false, "message" => ""];
         try {
@@ -22,15 +22,15 @@ class StatusRepository{
         }
     }
 
-    public function approvestatus(){
+    public function approveStatus(){
         return Status::where('status', 'Approve')->with(['perpus', 'user'])->get();
     }
 
-    public function returnstatus(){
+    public function returnStatus(){
         return Status::where('status', 'dikembalikan')->with(['perpus', 'user'])->get();
     }
 
-    public function historystatus(){
+    public function historyStatus(){
         return Status::where('status', 'dikembalikan')->with(['perpus', 'user'])->get();
     }
 }

@@ -30,20 +30,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $authid = Auth::user()->role;
-        if($authid == 'admin'){
-            $perpus = $this->BookRepo->getdata($request);
-            $perpuses = $perpus['message'];
-            return view('Perpus.index', compact('perpuses'));
-        }else{
-            $perpus = $this->BookRepo->getdata($request);
-            $perpuses = $perpus['message'];
-            return view('User.home', compact('perpuses'));
-        };
-        // return view('home');
+        $perpuses = $this->BookRepo->getData($request);
+        return (Auth::user()->role == 'admin' ) ? view('perpus.index', compact('perpuses')) : view('user.home', compact('perpuses'));
     }
 
     public function show(Perpus $id){
-        return view('User.show', compact('id'));
+        return view('user.show', compact('id'));
     }
 }
