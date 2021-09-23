@@ -21,7 +21,7 @@
                             <th scope="col">Status</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Jam</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Keterangan</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -31,8 +31,8 @@
                                     <td>{{ $item->user->name}}</td>
                                     <td>{{ $item->perpus->judul}}</td>
                                     <td>{{ $item->status}}</td>
-                                    <td>{{$item->created_at->format('d-M-Y')}}</td>
-                                    <td>{{$item->created_at->format('H:i')}}</td>
+                                    <td>{{$item->updated_at->format('d-M-Y')}}</td>
+                                    <td>{{$item->updated_at->format('H:i')}}</td>
                                     <td>{{ ($item->status == 'dikembalikan') ? 'sudah kembali' : ''}}</td>
                                     {{-- <td>
                                         <form action="{{route('status.update', $item->id)}}" method="POST">

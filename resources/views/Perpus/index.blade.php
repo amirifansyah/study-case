@@ -56,7 +56,7 @@
                     </form>
                 </td>
                 {{-- <td>{{ date("Y-m-d H:i:s", strtotime("+3 days", strtotime(Date('Y-m-d H:i:s')))) }}</td> --}}
-                <td>{{ date("Y-m-d H:i:s", strtotime("+3 days")) }}</td>
+                {{-- <td>{{ date("Y-m-d H:i:s", strtotime("+3 days")) }}</td> --}}
                 @empty
                 <td colspan="7" style="text-align: center">data kosong</td>
               </tr>
