@@ -27,8 +27,11 @@ class PinjamController extends Controller
             $status = $this->PinjamRepo->statusPinjam();
             return view('User.create', compact('status'));
         }else{
-            $status = $this->PinjamRepo->buttonDelete();
-        return view('User.create', compact('status'));
+        //     $status = $this->PinjamRepo->buttonDelete();
+        // return view('User.create', compact('status'));
+        return view('User.create', [
+            'status' => $this->PinjamRepo->getByDelete()
+        ]);
     }
     }
 }

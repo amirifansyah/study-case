@@ -54,7 +54,7 @@ class BukuRepository{
                     ->orwhere('stok', 'LIKE', '%'.$request->cari.'%')
                     ->orwhere('deskripsi', 'LIKE', '%'.$request->cari.'%')
                     ->orwhere('pengarang', 'LIKE', '%'.$request->cari.'%')
-                    ->paginate(2);
+                    ->paginate(3);
                 $result['status'] = true;
                 $result['message'] = $BukuRepo;
                 return $result;
@@ -147,7 +147,7 @@ class BukuRepository{
         }
         
 
-        public function buttonDelete(){
+        public function getByDelete(){
         return Status::where('user_id', Auth::user()->id) 
         ->where('status', '<>',"hapus")
         ->with(['perpus', 'user'])  

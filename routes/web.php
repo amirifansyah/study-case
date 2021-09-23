@@ -50,6 +50,11 @@ Route::get('dikembalikan', 'StatusController@return')->name('status.dikemabalika
 Route::get('/history-buku-kembali', 'StatusController@historybuku')->name('status.bukukembali');
 // Route::get('/nyoba', 'HomeController@bismillah')->name('nyoba');
 
-// Route::prefix('/repo-create-udate', '')
+Route::prefix('pustaka')->group(function (){
+    Route::get('/', 'PustakaController@daftarBuku')->name('index.pustaka');
+    Route::get('/new/{id}', 'PustakaController@newBook')->name('create.pustaka');
+    Route::post('/store/{id?}', 'PustakaController@pustakaStore')->name('store.pustaka');
+});
 
-
+// Route::get('/pustaka', 'PustakaController@daftarBuku')->name('index.pustaka');
+// Route::g

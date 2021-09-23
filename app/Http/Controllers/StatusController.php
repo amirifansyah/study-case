@@ -11,8 +11,7 @@ use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
-    protected $statusRepo;
-    protected $editstok;
+    protected $statusRepo, $editstok;
 
     public function __construct()
     {
