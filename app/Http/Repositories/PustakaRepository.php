@@ -11,16 +11,14 @@ class PustakaRepository{
         
         try {
             if($id){
-                // dd($request->all());
-                if($request->hasfile('gambar')){
-                    // if(\File::exists('storage/gambar-buku/'.$id->gambar)){
-                    //     \File::delete('storage/gambar-buku/'.$id->gambar);
-                    // }
-                    
-                    $image      = $request->file('gambar');
-                    $file    = time() . '.' . $image->getClientOriginalExtension();
+                $buku = Pustaka::findOrFail($id);
+                if($request->gambar){
+                    $file = $buku->gambar;
+                    if(\File::exists('storage/gambar-buku/'.$buku->gambar)){
+                        \File::delete('storage/gambar-buku/'.$buku->gambar);
+                    }
                     $request->file('gambar')->storeAs('public/gambar-buku/', $file);
-                    Pustaka::findOrFail($id)->update([
+                    $buku->update([
                         'judul_buku'    => $request->judul_buku,
                         'gambar'        => $file,
                         'desc'          => $request->desc,
@@ -28,14 +26,21 @@ class PustakaRepository{
                         'kategori'      => $request->kategori,
                         'pengarang'     => $request->pengarang
                     ]);
+                    $result["status"]   = true;
+                    $result["message"]  = "Berhasil Disimpan";
+                    return $result;
                 }else{
-                    Pustaka::findOrFail($id)->update($data);
+                    $buku->update($data);
+                    $result["status"]   = true;
+                    $result["message"]  = "Berhasil Disimpan";
+                    return $result;
                 }
-
-                $result["status"]   = true;
-                $result["message"]  = "Berhasil Disimpan";
-                return $result;
             }else{
+                if(!$request->hasFIle('gambar')){
+                    $result['status'] = false;
+                    $result ['message'] = "Gambar Tidak Boleh Kosong";
+                    return $result;
+                }
                 if($request->hasfile('gambar')){
                     $image      = $request->file('gambar');
                     $file    = time() . '.' . $image->getClientOriginalExtension();

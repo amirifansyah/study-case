@@ -1,6 +1,23 @@
 @extends('master')
 @section('content')
 
+<div class="warning">
+    @if(Session::has('false'))
+        <div class="alert alert-danger">
+            {{ Session::get('false') }}
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</div>
+
 @if (isset($id))
  <form action="{{route('store.pustaka', $id->id)}}" method="POST" enctype="multipart/form-data">
 @endif
@@ -15,7 +32,7 @@
         <div class="row">
             <div class="col-md-6">
                 <label for="judul_buku" class="form-label">Judul</label>
-                <input type="text" name="judul_buku" class="form-control" value="{{$id->judul_buku}}">             
+                <input type="text" name="judul_buku" class="form-control" value="{{$id->judul_buku}}" >             
             </div>
             <div class="col-md-6">
                 <label for="stok" class="form-label">Stok</label>
@@ -34,9 +51,7 @@
                 @if ($id->gambar)
                     <img src="{{asset('storage/gambar-buku/'.$id->gambar)}}" width="90px">
                 @endif
-                <input type="file" name="gambar" class="form-control" value="{{asset('storage/gambar-buku/'. $id->gambar)}}">
-                {{-- {{dd()}}   --}}
-                {{-- {{dd($id->gambar)}}      --}}
+                <input type="file" name="gambar" class="form-control">
             </div>
         </div>
         <br>

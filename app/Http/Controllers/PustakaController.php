@@ -30,7 +30,8 @@ class PustakaController extends Controller
         // dd($data['message']);
         if($data['status'] == false){
             $request->session()->flash('false', $data['message']);
-            return redirect()->route('index.pustaka');
+            // dd($data['message']);
+            return redirect()->route('create.pustaka');
         }else{
             $request->session()->flash('true', $data['message']);
             return redirect()->route('index.pustaka');
