@@ -25,17 +25,19 @@ class PustakaController extends Controller
     }
 
     public function pustakaStore(PustakaRequest $request, $id = null){
-        // dd($request);
         $data = $this->pustakaRepo->storeBuku($request, $id);
-        // dd($data['message']);
-        if($data['status'] == false){
-            $request->session()->flash('false', $data['message']);
-            // dd($data['message']);
-            return redirect()->route('create.pustaka');
-        }else{
-            $request->session()->flash('true', $data['message']);
-            return redirect()->route('index.pustaka');
-        }
+        //kodingan sedikit
+        $request->session()->flash($data['status'] ? 'true' : 'false', $data['message']);
+        return redirect()->route($data['status'] ? 'index.pustaka' : 'create.pustaka');
+
+        //kodingan boros
+        // if($data['status'] == false){
+        //     $request->session()->flash('false', $data['message']);
+        //     return redirect()->route('create.pustaka');
+        // }else{
+        //     $request->session()->flash('true', $data['message']);
+        //     return redirect()->route('index.pustaka');
+        // }
     }
 
     public function destroyBuku($id){

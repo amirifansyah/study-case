@@ -23,15 +23,21 @@ Route::post('login', 'BlogController@store')->name('login.store');
 
 
 Route::prefix('daftar-buku')->group(function () {
-    Route::get('/', 'PerpusController@index')->name('perpus.index');;
-    Route::get('/create-buku', 'PerpusController@create')->name('perpus.create');
-    Route::post('/create-buku', 'PerpusController@store')->name('perpus.store');
-    Route::get('/edit', 'PerpusController@edit')->name('perpus.edit');
+    // Route::get('/', 'PerpusController@index')->name('perpus.index');
+    // Route::get('/create-buku', 'PerpusController@create')->name('perpus.create');
+    // Route::post('/create-buku', 'PerpusController@store')->name('perpus.store');
+    // Route::get('/edit', 'PerpusController@edit')->name('perpus.edit');
     Route::delete('/{delete}', 'PerpusController@destroy')->name('perpus.destroy');
-    Route::get('/edit/{id}', 'PerpusController@edit')->name('perpus.edit');
-    Route::patch('/{id}', 'PerpusController@update')->name('perpus.update');
+    // Route::get('/edit/{id}', 'PerpusController@edit')->name('perpus.edit');
+    // Route::patch('/{id}', 'PerpusController@update')->name('perpus.update');
 });
 Auth::routes();
+
+Route::prefix('daftar-buku')->group(function(){
+    Route::get('/', 'PerpusController@index')->name('perpus.index');
+    Route::get('/new/{$id?}', 'PerpusContoller@create')->name('perpus.create');
+    Route::post('/store/{$id}', 'PerpusController@store')->name('perpus.store');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 

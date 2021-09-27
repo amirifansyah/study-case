@@ -24,11 +24,16 @@ class PerpusController extends Controller
     public function store(NewBookRequest $request){
             $bukuRepo = $this->BookRepo->storeBuku($request);
         Session::flash('message', $bukuRepo['message']);
-        if(!$bukuRepo['status']){
-            Session::flash('alert-class', 'alert-danger');
-        }else{
-            Session::flash('alert-class', 'alert-success');
-        }
+        // cara singkat
+        $sessionStatus = $bukuRepo['status'] ? 'alert-success' : 'alert-danger';
+        session::flash('alert-class', $sessionStatus);
+
+        //cara panjang
+        // if(!$bukuRepo['status']){
+        //     Session::flash('alert-class', 'alert-danger');
+        // }else{
+        //     Session::flash('alert-class', 'alert-success');
+        // }
         return redirect()->route('home');
     }
 
