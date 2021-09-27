@@ -15,8 +15,8 @@ class CreatePustakasTable extends Migration
     {
         Schema::create('pustakas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('judul-buku');
-            $table->string('gambar');
+            $table->string('judul_buku');
+            $table->string('gambar')->nullable();
             $table->text('desc');
             $table->integer('stok');
             $table->string('kategori');

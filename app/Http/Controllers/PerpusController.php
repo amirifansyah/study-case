@@ -35,7 +35,6 @@ class PerpusController extends Controller
     public function destroy($id) {
         $this->BookRepo->hapusBuku($id);
         return redirect()->route('home');
-    
     }
 
     public function edit(Perpus $id){

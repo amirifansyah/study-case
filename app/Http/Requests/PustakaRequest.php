@@ -24,8 +24,8 @@ class PustakaRequest extends FormRequest
     public function rules()
     {
         return [
-            'judul-buku'    => 'required',
-            'gambar'        => 'required',
+            'judul_buku'    => 'required',
+            'gambar'        => '',
             'desc'          => 'required',
             'stok'          => 'required',
             'kategori'      => 'required',

@@ -52,8 +52,9 @@ Route::get('/history-buku-kembali', 'StatusController@historyBuku')->name('statu
 
 Route::prefix('pustaka')->group(function (){
     Route::get('/', 'PustakaController@daftarBuku')->name('index.pustaka');
-    Route::get('/new/{id}', 'PustakaController@newBook')->name('create.pustaka');
+    Route::get('/new/{id?}', 'PustakaController@newBook')->name('create.pustaka');
     Route::post('/store/{id?}', 'PustakaController@pustakaStore')->name('store.pustaka');
+    Route::delete('/delete/{id?}', 'PustakaController@destroyBuku')->name('destroyBuku.pustaka');
 });
 
 // Route::get('/pustaka', 'PustakaController@daftarBuku')->name('index.pustaka');

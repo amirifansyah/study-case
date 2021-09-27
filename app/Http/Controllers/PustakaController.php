@@ -16,14 +16,29 @@ class PustakaController extends Controller
         $this->pustakaRepo = new PustakaRepository;
     }
     public function daftarBuku(){
-        return view('Pustaka.home');
+        $buku = $this->pustakaRepo->getDataBuku();
+        return view('pustaka.home', compact('buku'));
     }
 
     public function newBook(Pustaka $id){
-        return view('Pustaka.create', compact('id'));
+        return view('pustaka.create', compact('id'));
     }
 
     public function pustakaStore(PustakaRequest $request, $id = null){
+        // dd($request);
+        $data = $this->pustakaRepo->storeBuku($request, $id);
+        // dd($data['message']);
+        if($data['status'] == false){
+            $request->session()->flash('false', $data['message']);
+            return redirect()->route('index.pustaka');
+        }else{
+            $request->session()->flash('true', $data['message']);
+            return redirect()->route('index.pustaka');
+        }
+    }
 
+    public function destroyBuku($id){
+        $this->pustakaRepo->deleteBuku($id);
+        return redirect()->route('index.pustaka');
     }
 }
