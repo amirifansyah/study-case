@@ -36,15 +36,26 @@ class StatusController extends Controller
 
     public function updateStatus(PinjamRequest $request,Status $id){
         if($request['status'] == 'Approve'){
-            $this->editstok->statusStokKurang($request, $id);
+            $this->editstok->statusStok($request, $id);
             return redirect()->route('user.pinjambuku');
         }else if($request['status'] == 'dikembalikan'){
-            $this->editstok->statusStokTambah($request,$id);
+            $this->editstok->statusStok($request, $id);
             return redirect()->route('status.dikemabalikan');
         }else{
             $this->statusRepo->updateStatus($request, $id);
             return redirect()->route('user.pinjambuku');
         }
+        
+        // if($request['status'] == 'Approve'){
+        //     $this->editstok->statusStokKurang($request, $id);
+        //     return redirect()->route('user.pinjambuku');
+        // }else if($request['status'] == 'dikembalikan'){
+        //     $this->editstok->statusStokTambah($request,$id);
+        //     return redirect()->route('status.dikemabalikan');
+        // }else{
+        //     $this->statusRepo->updateStatus($request, $id);
+        //     return redirect()->route('user.pinjambuku');
+        // }
     }
 }
 

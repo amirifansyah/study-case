@@ -46,7 +46,7 @@
                 <td>{{ $item->pengarang }}</td>
                 <td><label class="btn {{ ($item->stok >= 1 ) ? 'btn-success' : 'btn-danger'}}">{{ ($item->stok >= 1) ? 'Ready' : 'Empty' }}</label></td>
                 <td>
-                    <button class="btn btn-success"><a href="{{route('perpus.edit', $item->id)}}" style="color: white"><i class="far fa-edit"></i></a></button>
+                    <a href="{{route('perpus.create', ['id' => $item->id])}}" style="color: white" class="btn btn-success"><i class="far fa-edit"></i></a>
                 </td>
                 <td>
                   <form action="{{route('perpus.destroy', ['id' => $item->id])}}" method="POST">

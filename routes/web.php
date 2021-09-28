@@ -35,8 +35,8 @@ Auth::routes();
 
 Route::prefix('daftar-buku')->group(function(){
     Route::get('/', 'PerpusController@index')->name('perpus.index');
-    Route::get('/new/{$id?}', 'PerpusContoller@create')->name('perpus.create');
-    Route::post('/store/{$id}', 'PerpusController@store')->name('perpus.store');
+    Route::get('/new/{id?}', 'PerpusController@create')->name('perpus.create');
+    Route::post('/store/{id?}', 'PerpusController@store')->name('perpus.store');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

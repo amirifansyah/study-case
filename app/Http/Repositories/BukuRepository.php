@@ -14,23 +14,50 @@ class BukuRepository{
             $this->statusRepo = new StatusRepository;
         }
 
-        public function storeBuku($request){
+        public function storeBuku($request, $id = null){
             $result = ["status" => false, "message" => ""];
-            $data = $request->all();
-            try { 
-                $BukuRepo = new Perpus();
-                $BukuRepo->judul        = $data['judul'];
-                $BukuRepo->deskripsi    = $data['deskripsi'];
-                $BukuRepo->stok         = $data['stok'];
-                $BukuRepo->kategori     = $data['kategori'];
-                $BukuRepo->pengarang    = $data['pengarang'];
-                $BukuRepo->save();
-                $result["status"] = true;
-                $result["message"] = "data Berhasil disimpan";
+            try {
+                $findPerpus = $this->findById($id);
+                if(!$findPerpus){
+                    $findPerpus = new Perpus();
+                }
+                $findPerpus->judul          = $request->judul;
+                $findPerpus->deskripsi      = $request->deskripsi;
+                $findPerpus->stok           = $request->stok;
+                $findPerpus->kategori       = $request->kategori;
+                $findPerpus->pengarang      = $request->pengarang;
+                $findPerpus->save();
+                $result['status']   = true;
+                $result['message']  = "Buku Berhasil Disimpan";
+                return $result;
             } catch (\Throwable $th) {
-                $result["message"] =  'Funtion Store Error'.$th->getMessage();
+                $result['message'] = "function Store Error" . $th->getMessage();
                 return $result;
             }
+
+
+
+            // $result = ["status" => false, "message" => ""];
+            // $data = $request->all();
+            // try { 
+            //     $BukuRepo = new Perpus();
+            //     $BukuRepo->judul        = $data['judul'];
+            //     $BukuRepo->deskripsi    = $data['deskripsi'];
+            //     $BukuRepo->stok         = $data['stok'];
+            //     $BukuRepo->kategori     = $data['kategori'];
+            //     $BukuRepo->pengarang    = $data['pengarang'];
+            //     $BukuRepo->save();
+            //     $result["status"] = true;
+            //     $result["message"] = "data Berhasil disimpan";
+            // } catch (\Throwable $th) {
+            //     $result["message"] =  'Funtion Store Error'.$th->getMessage();
+            //     return $result;
+            // }
+        }
+
+        public function findById($id){
+            return Perpus::with([])
+                ->find($id);
         }
 
         public function getData($request){
@@ -55,32 +82,18 @@ class BukuRepository{
             }
         }
 
-        public function statusStokKurang($request, $id){
-            $result = ["status" => false, "message" => ""];
+        public function statusStok($request, $id){
+            // dd($request);
                 try {
                     $buku_id = $id->perpus_id;
                     $this->statusRepo->updateStatus($request, $id);
                     $stok = new Perpus;
                     $stok = $stok->findStokById($buku_id);
-                    $stok->stok = $stok->stok - 1;
-                    $stok->save();
-                    $result["status"] = true;
-                    $result["message"] = "data Berhasil disimpan";
-                    return $result;
-                } catch (\Throwable $th) {
-                    $result["message"] =  'Funtion Store Error'.$th->getMessage();
-                    return $result;
-                }
-            }
-
-        public function statusStokTambah($request, $id){
-            $result = ["status" => false, "message" => ""];
-                try {
-                    $buku_id = $id->perpus_id;
-                    $this->statusRepo->updateStatus($request, $id);
-                    $stok = new Perpus;
-                    $stok = $stok->findStokById($buku_id);
-                    $stok->stok = $stok->stok + 1;
+                    if($request['status'] == 'Approve'){
+                        $stok->stok = $stok->stok - 1;
+                    }else if($request['status'] == 'dikembalikan'){
+                        $stok->stok = $stok->stok + 1;
+                    }
                     $stok->save();
                     $result["status"] = true;
                     $result["message"] = "data Berhasil disimpan";
@@ -91,19 +104,42 @@ class BukuRepository{
                 }
         }
 
-        public function updateBuku($request, $id){
-            $result = ["status" => false, "message" => ""];
-            try {
-                $validate = $request->all();
-                $id->update($validate);
-                $result["status"] = true;
-                $result["message"] = "data Berhasil disimpan";
-                return $result;
-            } catch (\Throwable $th) {
-                $result["message"] =  'Funtion Store Error'.$th->getMessage();
-                return $result;
-            }
-        }
+        // public function statusStokKurang($request, $id){
+        //     $result = ["status" => false, "message" => ""];
+        //         try {
+        //             $buku_id = $id->perpus_id;
+        //             $this->statusRepo->updateStatus($request, $id);
+        //             $stok = new Perpus;
+        //             $stok = $stok->findStokById($buku_id);
+        //             $stok->stok = $stok->stok - 1;
+        //             $stok->save();
+        //             $result["status"] = true;
+        //             $result["message"] = "data Berhasil disimpan";
+        //             return $result;
+        //         } catch (\Throwable $th) {
+        //             $result["message"] =  'Funtion Store Error'.$th->getMessage();
+        //             return $result;
+        //         }
+        //     }
+
+        // public function statusStokTambah($request, $id){
+        //     // dd($request);
+        //     $result = ["status" => false, "message" => ""];
+        //         try {
+        //             $buku_id = $id->perpus_id;
+        //             $this->statusRepo->updateStatus($request, $id);
+        //             $stok = new Perpus;
+        //             $stok = $stok->findStokById($buku_id);
+        //             $stok->stok = $stok->stok + 1;
+        //             $stok->save();
+        //             $result["status"] = true;
+        //             $result["message"] = "data Berhasil disimpan";
+        //             return $result;
+        //         } catch (\Throwable $th) {
+        //             $result["message"] =  'Funtion Store Error'.$th->getMessage();
+        //             return $result;
+        //         }
+        // }
 
         public function hapusBuku($id){
             $result = ["status" => false, "message" => ""];

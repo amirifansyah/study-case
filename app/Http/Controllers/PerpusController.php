@@ -17,13 +17,14 @@ class PerpusController extends Controller
         $this->BookRepo = new BukuRepository;
     }
 
-    public function create(){
-        return view('perpus.create');
+    public function create(Perpus $id){
+        return view('perpus.create', compact('id'));
     }
 
-    public function store(NewBookRequest $request){
-            $bukuRepo = $this->BookRepo->storeBuku($request);
+    public function store(NewBookRequest $request, $id = null){
+        $bukuRepo = $this->BookRepo->storeBuku($request, $id);
         Session::flash('message', $bukuRepo['message']);
+
         // cara singkat
         $sessionStatus = $bukuRepo['status'] ? 'alert-success' : 'alert-danger';
         session::flash('alert-class', $sessionStatus);
