@@ -45,13 +45,11 @@ class PustakaRepository{
         try {
             if($id){
                 $bukuRepo = Pustaka::findOrFail($id);
-                // dd($buku);
                 if($request->gambar){
                     if(\File::exists('storage/gambar-buku/'. $bukuRepo->gambar )){
                         \File::delete('storage/gambar-buku/'. $bukuRepo->gambar);
                     }
                     $file = $bukuRepo->gambar;
-                    // dd($file);
                     $request->file('gambar')->storeAs( 'public/gambar-buku/',  $file);
                 }else{
                     $file = $bukuRepo->gambar;

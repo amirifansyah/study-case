@@ -83,7 +83,6 @@ class BukuRepository{
         }
 
         public function statusStok($request, $id){
-            // dd($request);
                 try {
                     $buku_id = $id->perpus_id;
                     $this->statusRepo->updateStatus($request, $id);
